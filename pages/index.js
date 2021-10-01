@@ -63,7 +63,7 @@ export default function Home() {
         //   text.style.marginLeft = posX + "px";
         // }
       }
-    }, 750);
+    }, 1000);
   }, []);
 
   return (
