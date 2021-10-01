@@ -49,9 +49,9 @@ export default function Home() {
 
       if (faceDetection != undefined) {
         let currentNosePos = Math.floor(faceDetection.landmarks.getNose()[0].x);
-        console.log(currentNosePos);
+        // console.log(currentNosePos);
 
-        text.style.marginRight = currentNosePos - 400 + "px";
+        text.style.marginRight = currentNosePos - video.videoWidth / 2 + "px";
 
         // console.log(currentLeftEyePos);
         // if (leftEyePos == 0) {
@@ -63,7 +63,7 @@ export default function Home() {
         //   text.style.marginLeft = posX + "px";
         // }
       }
-    }, 1000);
+    }, 100);
   }, []);
 
   return (
@@ -78,10 +78,12 @@ export default function Home() {
         <h1 className="text-3xl font-thin mt-4">whole + hold + still</h1>
       </main>
       {loadedModel ? <h2>Loaded Model</h2> : <h2>Loading Model</h2>}
-      <h1 id="myText" className="transition-all">
-        {" "}
-        DEMO TEXT DEMO TEXT
-      </h1>
+      <div className="w-screen max-w-full overflow-hidden flex flex-row justify-center">
+        <h1 id="myText" className="transition-all absolute">
+          {" "}
+          DEMO TEXT DEMO TEXT
+        </h1>
+      </div>
       <video crossorigin="anonymous" id="myVid" />
     </div>
   );
