@@ -51,7 +51,7 @@ export default function Home() {
         let currentNosePos = Math.floor(faceDetection.landmarks.getNose()[0].x);
         console.log(currentNosePos);
 
-        text.style.marginLeft = currentNosePos - 400 + "px";
+        text.style.marginRight = currentNosePos - 400 + "px";
 
         // console.log(currentLeftEyePos);
         // if (leftEyePos == 0) {
