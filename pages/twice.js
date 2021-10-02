@@ -1,12 +1,8 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
-import { useRouter } from "next/router";
-export default function Home() {
-  const router = useRouter();
-  const { speed } = router.query;
-  console.log(speed);
 
+export default function Home() {
   const [loadedModel, setLoadedModel] = useState(false);
 
   const [complete, setComplete] = useState(true);
@@ -75,8 +71,7 @@ export default function Home() {
           if (posY == -1) {
             posY = currentY;
           }
-
-          let speedConst = +speed;
+          let speedConst = 2;
 
           text.style.marginLeft = speedConst * (posX - currentX) + "px";
           text.style.marginTop = speedConst * (currentY - posY) + "px";
@@ -98,7 +93,7 @@ export default function Home() {
       <div className="text-center">
         <h1 className="text-8xl font-bold">Wholdstill</h1>
         <h1 className="text-3xl font-thin">whole + hold + still</h1>
-        {speed}
+
         {loadedModel ? (
           <h2>Loaded! Model</h2>
         ) : (

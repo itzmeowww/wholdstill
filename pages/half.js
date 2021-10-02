@@ -71,7 +71,7 @@ export default function Home() {
           if (posY == -1) {
             posY = currentY;
           }
-          let speedConst = 1;
+          let speedConst = 0.5;
 
           text.style.marginLeft = speedConst * (posX - currentX) + "px";
           text.style.marginTop = speedConst * (currentY - posY) + "px";
