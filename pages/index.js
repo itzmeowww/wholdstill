@@ -4,7 +4,8 @@ import * as faceapi from "face-api.js";
 
 export default function Home() {
   const [loadedModel, setLoadedModel] = useState(false);
-  const [speedConst, setSpeedConst] = useState(1);
+  const [speedConst, setSpeedConst] = useState(1.0);
+  const [complete, setComplete] = useState(true);
   useEffect(async () => {
     clearInterval();
     const video = document.getElementById("myVid");
@@ -38,6 +39,7 @@ export default function Home() {
     setLoadedModel(true);
     // let count = 1;
     let posX = -1;
+    let posY = -1;
 
     let inputSize = 160;
     let scoreThreshold = 0.3;
@@ -46,7 +48,6 @@ export default function Home() {
       scoreThreshold,
     });
 
-    let complete = true;
     setInterval(async () => {
       // tiny_face_detector options
       // console.log(`start : ${count}`);
@@ -54,47 +55,64 @@ export default function Home() {
       // detect all faces and generate full description from image
       // including landmark and descriptor of each face
       if (complete) {
-        complete = false;
+        setComplete(false);
         let fullDesc = await faceapi.detectSingleFace(video, OPTION);
         // console.log(fullDesc);
-
         if (fullDesc != undefined) {
-          let currentX = fullDesc.box.x;
+          let currentX = Math.floor(fullDesc.box.x * 10) / 10;
+          let currentY = Math.floor(fullDesc.box.y * 10) / 10;
+
           if (posX == -1) {
             posX = currentX;
           }
-          text.style.marginLeft = speedConst * (posX - currentX) + "px";
-          console.log(text.style.marginLeft);
+
+          if (posY == -1) {
+            posY = currentY;
+          }
+          text.style.marginLeft = 0.7 * (posX - currentX) + "px";
+          text.style.marginTop = 0.7 * (currentY - posY) + "px";
+
+          console.log(
+            `left : ${text.style.marginLeft} top: ${text.style.marginTop}`
+          );
         }
-        complete = true;
+        setComplete(true);
       }
 
       // console.log(`end : ${count}`);
       // count++;
-    }, 100);
+    }, 10);
   }, []);
 
   const handleChange = (e) => {
     setSpeedConst(Number(e.target.value));
   };
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center min-h-screen py-2">
       <Head>
         <title>Wholdstill</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">Wholdstill</h1>
-        <h1 className="text-3xl font-thin mt-4">whole + hold + still</h1>
-        {speedConst}
-        <input type="number" value={speedConst} onChange={handleChange}></input>
-      </main>
-      {loadedModel ? <h2>Loaded Model</h2> : <h2>Loading Model</h2>}
-      <div className="w-screen max-w-full overflow-hidden flex flex-row justify-center">
+      <div className="text-center">
+        <h1 className="text-8xl font-bold">Wholdstill</h1>
+        <h1 className="text-3xl font-thin">whole + hold + still</h1>
+        <input
+          type="number"
+          className="border-2 py-1"
+          value={speedConst}
+          onChange={handleChange}
+        ></input>
+        {loadedModel ? (
+          <h2>Loaded! Model</h2>
+        ) : (
+          <h2 className="animate-pulse">Loading Model...</h2>
+        )}
+        {complete ? <h1>Complete</h1> : <h1>Incomplete</h1>}
+      </div>
+      <div className=" overflow-hidden whitespace-nowrap border-2 h-96 w-96 flex justify-center items-center">
         <h1 id="myText" className="transition-all">
           {" "}
-          DEMO TEXT DEMO TEXT
+          Roses are red. Violets are blue. udv. uv vdu.
         </h1>
       </div>
       <video crossorigin="anonymous" id="myVid" />
