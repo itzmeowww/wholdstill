@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import * as faceapi from "face-api.js";
 
 export default function Home() {
-  const [leftEyePos, setLeftEyePos] = useState(0);
-  const [posX, setPosX] = useState(0);
   const [loadedModel, setLoadedModel] = useState(false);
+  const [speedConst, setSpeedConst] = useState(1);
   useEffect(async () => {
     clearInterval();
     const video = document.getElementById("myVid");
@@ -35,37 +34,41 @@ export default function Home() {
     }
 
     const MODEL_URL = "/models";
-
-    await faceapi.loadSsdMobilenetv1Model(MODEL_URL);
-    await faceapi.loadFaceLandmarkModel(MODEL_URL);
-    await faceapi.loadFaceRecognitionModel(MODEL_URL);
+    await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
 
     setLoadedModel(true);
-
+    let count = 1;
+    let posX = -1;
     setInterval(async () => {
-      let faceDetection = await faceapi
-        .detectSingleFace(video)
-        .withFaceLandmarks();
+      // tiny_face_detector options
+      console.log(`start : ${count}`);
+      let inputSize = 512;
+      let scoreThreshold = 0.3;
+      const OPTION = new faceapi.TinyFaceDetectorOptions({
+        inputSize,
+        scoreThreshold,
+      });
 
-      if (faceDetection != undefined) {
-        let currentNosePos = Math.floor(faceDetection.landmarks.getNose()[0].x);
-        // console.log(currentNosePos);
+      // detect all faces and generate full description from image
+      // including landmark and descriptor of each face
+      let fullDesc = await faceapi.detectSingleFace(video, OPTION);
+      // console.log(fullDesc);
 
-        text.style.marginRight = currentNosePos - video.videoWidth / 2 + "px";
-
-        // console.log(currentLeftEyePos);
-        // if (leftEyePos == 0) {
-        //   setLeftEyePos(currentLeftEyePos);
-        // } else {
-        //   let leftEyePosDif = currentLeftEyePos - leftEyePos;
-        //   setLeftEyePos(currentLeftEyePos);
-        //   setPosX(posX + leftEyePosDif);
-        //   text.style.marginLeft = posX + "px";
-        // }
+      if (fullDesc != undefined) {
+        let currentX = fullDesc.box.x;
+        if (posX == -1) {
+          posX = currentX;
+        }
+        text.style.marginLeft = speedConst * (posX - currentX) + "px";
       }
-    }, 100);
+      console.log(`end : ${count}`);
+      count++;
+    }, 300);
   }, []);
 
+  const handleChange = (e) => {
+    setSpeedConst(Number(e.target.value));
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -76,6 +79,8 @@ export default function Home() {
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold">Wholdstill</h1>
         <h1 className="text-3xl font-thin mt-4">whole + hold + still</h1>
+        {speedConst}
+        <input type="number" value={speedConst} onChange={handleChange}></input>
       </main>
       {loadedModel ? <h2>Loaded Model</h2> : <h2>Loading Model</h2>}
       <div className="w-screen max-w-full overflow-hidden flex flex-row justify-center">
