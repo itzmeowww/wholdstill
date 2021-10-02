@@ -107,15 +107,21 @@ export default function Home() {
         ) : (
           <h2 className="animate-pulse">Loading Model...</h2>
         )}
-        {complete ? <h1>Complete</h1> : <h1>Incomplete</h1>}
+        {/* {complete ? <h1>Complete</h1> : <h1>Incomplete</h1>} */}
       </div>
-      <div className=" overflow-hidden whitespace-nowrap border-2 h-96 w-96 flex justify-center items-center">
+      <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center">
         <h1 id="myText" className="transition-all">
           {" "}
           Roses are red. Violets are blue. udv. uv vdu.
         </h1>
       </div>
-      <video crossorigin="anonymous" id="myVid" />
+      <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center">
+        <h1 className="transition-all">
+          {" "}
+          Roses are red. Violets are blue. udv. uv vdu.
+        </h1>
+      </div>
+      <video crossorigin="anonymous" id="myVid" className="hidden" />
     </div>
   );
 }
