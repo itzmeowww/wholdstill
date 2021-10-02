@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 export default function Home() {
   const router = useRouter();
   const { speed } = router.query;
-  //   console.log(router.query);
+  console.log(speed);
+
   const [loadedModel, setLoadedModel] = useState(false);
 
   const [complete, setComplete] = useState(true);
@@ -74,7 +75,8 @@ export default function Home() {
           if (posY == -1) {
             posY = currentY;
           }
-          let speedConst = speed;
+
+          let speedConst = +speed;
 
           text.style.marginLeft = speedConst * (posX - currentX) + "px";
           text.style.marginTop = speedConst * (currentY - posY) + "px";
@@ -84,7 +86,7 @@ export default function Home() {
 
       // console.log(`end : ${count}`);
       // count++;
-    }, 10);
+    }, 25);
   }, []);
 
   return (

@@ -81,7 +81,7 @@ export default function Home() {
 
       // console.log(`end : ${count}`);
       // count++;
-    }, 10);
+    }, 25);
   }, []);
 
   return (
