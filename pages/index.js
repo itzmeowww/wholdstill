@@ -42,7 +42,7 @@ export default function Home() {
     let posX = -1;
     let posY = -1;
 
-    let inputSize = 128;
+    let inputSize = 96;
     let scoreThreshold = 0.3;
     const OPTION = new faceapi.TinyFaceDetectorOptions({
       inputSize,
@@ -61,8 +61,8 @@ export default function Home() {
         let fullDesc = await faceapi.detectSingleFace(video, OPTION);
         // console.log(fullDesc);
         if (fullDesc != undefined) {
-          let currentX = Math.floor(fullDesc.box.x * 10) / 10;
-          let currentY = Math.floor(fullDesc.box.y * 10) / 10;
+          let currentX = Math.floor(fullDesc.box.x * 50) / 50;
+          let currentY = Math.floor(fullDesc.box.y * 50) / 50;
 
           if (posX == -1) {
             posX = currentX;
@@ -71,7 +71,8 @@ export default function Home() {
           if (posY == -1) {
             posY = currentY;
           }
-          let speedConst = 1;
+
+          let speedConst = 0.1;
 
           text.style.marginLeft = speedConst * (posX - currentX) + "px";
           text.style.marginTop = speedConst * (currentY - posY) + "px";
@@ -101,18 +102,21 @@ export default function Home() {
         )}
         {/* {complete ? <h1>Complete</h1> : <h1>Incomplete</h1>} */}
       </div>
-      <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center">
+      <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center transition-all duration-300">
         <h1 id="myText" className="transition-all">
           {" "}
-          Roses are red. Violets are blue. udv. uv vdu.
+          {loadedModel
+            ? "🔃"
+            : "Roses are red. Violets are blue. d(uv). udv +vdu."}
         </h1>
       </div>
       <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center">
         <h1 className="transition-all">
           {" "}
-          Roses are red. Violets are blue. udv. uv vdu.
+          Roses are red. Violets are blue. d(uv). udv + vdu.
         </h1>
       </div>
+
       <video crossorigin="anonymous" id="myVid" className="hidden" />
     </div>
   );
