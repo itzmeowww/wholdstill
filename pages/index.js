@@ -105,7 +105,7 @@ export default function Home() {
       <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center transition-all duration-300">
         <h1 id="myText" className="transition-all">
           {" "}
-          {loadedModel
+          {!loadedModel
             ? "🔃"
             : "Roses are red. Violets are blue. d(uv). udv +vdu."}
         </h1>
