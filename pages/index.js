@@ -61,8 +61,8 @@ export default function Home() {
         let fullDesc = await faceapi.detectSingleFace(video, OPTION);
         // console.log(fullDesc);
         if (fullDesc != undefined) {
-          let currentX = Math.floor(fullDesc.box.x * 50) / 50;
-          let currentY = Math.floor(fullDesc.box.y * 50) / 50;
+          let currentX = Math.floor(fullDesc.box.x * 10) / 10;
+          let currentY = Math.floor(fullDesc.box.y * 10) / 10;
 
           if (posX == -1) {
             posX = currentX;
@@ -72,7 +72,7 @@ export default function Home() {
             posY = currentY;
           }
 
-          let speedConst = 0.1;
+          let speedConst = 0.05;
 
           text.style.marginLeft = speedConst * (posX - currentX) + "px";
           text.style.marginTop = speedConst * (currentY - posY) + "px";
@@ -92,23 +92,32 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="text-center">
-        <h1 className="text-8xl font-bold">Wholdstill</h1>
+        <h1 className="text-7xl font-bold">Wholdstill</h1>
         <h1 className="text-3xl font-thin">whole + hold + still</h1>
 
-        {loadedModel ? (
+        {/* {loadedModel ? (
           <h2>Loaded! Model</h2>
         ) : (
           <h2 className="animate-pulse">Loading Model...</h2>
-        )}
+        )} */}
         {/* {complete ? <h1>Complete</h1> : <h1>Incomplete</h1>} */}
       </div>
-      <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center transition-all duration-300">
-        <h1 id="myText" className="transition-all">
-          {" "}
-          {!loadedModel
-            ? "🔃"
-            : "Roses are red. Violets are blue. d(uv). udv +vdu."}
-        </h1>
+      <div
+        style={{ "transition-duration": 30 }}
+        className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center transition-all "
+      >
+        <div id="myText" className="transition-all max-w-md">
+          {!loadedModel ? (
+            <h1 className="animate-pulse">"🔃"</h1>
+          ) : (
+            <>
+              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
+              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
+              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
+              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
+            </>
+          )}
+        </div>
       </div>
       <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center">
         <h1 className="transition-all">
