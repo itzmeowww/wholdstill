@@ -6,7 +6,21 @@ export default function Home() {
   const [loadedModel, setLoadedModel] = useState(false);
 
   const [complete, setComplete] = useState(true);
+  const [openSetting, setOpenSetting] = useState(false);
+  const [speed, setSpeed] = useState(0.1);
+  const toggleSetting = () => {
+    setOpenSetting(!openSetting);
+  };
 
+  const handleSpeedChange = (e) => {
+    setSpeed(e.target.value);
+  };
+
+  const getSpeed = () => {
+    if (document.getElementById("speed"))
+      return document.getElementById("speed").value;
+    return 0.1;
+  };
   useEffect(async () => {
     clearInterval();
     const video = document.getElementById("myVid");
@@ -61,8 +75,8 @@ export default function Home() {
         let fullDesc = await faceapi.detectSingleFace(video, OPTION);
         // console.log(fullDesc);
         if (fullDesc != undefined) {
-          let currentX = Math.floor(fullDesc.box.x * 10) / 10;
-          let currentY = Math.floor(fullDesc.box.y * 10) / 10;
+          let currentX = Math.floor(fullDesc.box.x * 20) / 20;
+          let currentY = Math.floor(fullDesc.box.y * 20) / 20;
 
           if (posX == -1) {
             posX = currentX;
@@ -72,8 +86,8 @@ export default function Home() {
             posY = currentY;
           }
 
-          let speedConst = 0.05;
-
+          let speedConst = getSpeed();
+          // console.log(speedConst);
           text.style.marginLeft = speedConst * (posX - currentX) + "px";
           text.style.marginTop = speedConst * (currentY - posY) + "px";
         }
@@ -86,47 +100,50 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen py-2">
+    <div
+      className="flex flex-col items-center  py-2 bg-green-100"
+      style={{ height: "150vh" }}
+    >
       <Head>
         <title>Wholdstill</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="text-center">
+      <div className="text-center mb-10">
         <h1 className="text-7xl font-bold">Wholdstill</h1>
         <h1 className="text-3xl font-thin">whole + hold + still</h1>
-
-        {/* {loadedModel ? (
-          <h2>Loaded! Model</h2>
-        ) : (
-          <h2 className="animate-pulse">Loading Model...</h2>
-        )} */}
-        {/* {complete ? <h1>Complete</h1> : <h1>Incomplete</h1>} */}
+        <button
+          className="bg-gray-200 rounded-md px-2  py-1 shadow-md "
+          onClick={toggleSetting}
+        >
+          Setting
+        </button>
       </div>
-      <div
-        style={{ "transition-duration": 30 }}
-        className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center transition-all "
-      >
-        <div id="myText" className="transition-all max-w-md">
-          {!loadedModel ? (
-            <h1 className="animate-pulse">"🔃"</h1>
+      {openSetting ? (
+        <div className="flex flex-col pb-10">
+          <label for="speed">Speed : {speed}</label>
+          <input
+            id="speed"
+            type="number"
+            step={0.1}
+            onChange={handleSpeedChange}
+            value={speed}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
+      <div style={{ "transition-duration": 100 }} className=" transition-all">
+        <div id="myText" className="bg-gray-200 rounded-xl p-4">
+          {loadedModel ? (
+            <iframe src="quiz.pdf" width="400px" height="400px"></iframe>
           ) : (
-            <>
-              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
-              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
-              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
-              <h1> "Roses are red. Violets are blue. d(uv). udv +vdu."</h1>
-            </>
+            <h2 className="animate-pulse">Loading Model...</h2>
           )}
         </div>
       </div>
-      <div className=" overflow-hidden whitespace-nowrap border-2 h-48 w-96 flex justify-center items-center">
-        <h1 className="transition-all">
-          {" "}
-          Roses are red. Violets are blue. d(uv). udv + vdu.
-        </h1>
-      </div>
 
-      <video crossorigin="anonymous" id="myVid" className="hidden" />
+      <video crossOrigin="anonymous" id="myVid" className="hidden" />
     </div>
   );
 }
