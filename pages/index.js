@@ -53,11 +53,18 @@ export default function Home() {
 
     setLoadedModel(true);
     // let count = 1;
+    let movingAverage = 3;
+    let couMovingAverage = 0;
     let posX = -1;
     let posY = -1;
+    let oldPosX = -1;
+    let oldPosY = -1;
+    let averageX = 0.0;
+    let averageY = 0.0;
+    let posList = [];
 
     let inputSize = 96;
-    let scoreThreshold = 0.3;
+    let scoreThreshold = 0.4;
     const OPTION = new faceapi.TinyFaceDetectorOptions({
       inputSize,
       scoreThreshold,
@@ -77,6 +84,21 @@ export default function Home() {
         if (fullDesc != undefined) {
           let currentX = Math.floor(fullDesc.box.x * 20) / 20;
           let currentY = Math.floor(fullDesc.box.y * 20) / 20;
+          if (couMovingAverage <= movingAverage) {
+            averageX = averageX + currentX;
+            averageY = averageY + currentY;
+            posList.push({ x: currentX, y: currentY });
+            couMovingAverage = couMovingAverage + 1;
+          } else {
+            averageX = averageX - posList[0].x;
+            averageY = averageY - posList[0].y;
+            posList.shift();
+
+            averageX = averageX + currentX;
+            averageY = averageY + currentY;
+            posList.push({ x: currentX, y: currentY });
+          }
+          console.log(averageX, averageY);
 
           if (posX == -1) {
             posX = currentX;
@@ -87,9 +109,23 @@ export default function Home() {
           }
 
           let speedConst = getSpeed();
+
+          text.style.marginLeft =
+            speedConst * (posX - averageX / movingAverage) + "px";
+          text.style.marginTop =
+            speedConst * (averageY / movingAverage - posY) + "px";
+          // if (
+          //   Math.abs(currentX - oldPosX) < 1 ||
+          //   Math.abs(currentY - oldPosY) < 1
+          // ) {
+          // } else {
+          //   text.style.marginLeft = speedConst * (posX - currentX) + "px";
+          //   text.style.marginTop = speedConst * (currentY - posY) + "px";
+          // }
+          oldPosX = currentX;
+          oldPosY = currentY;
+
           // console.log(speedConst);
-          text.style.marginLeft = speedConst * (posX - currentX) + "px";
-          text.style.marginTop = speedConst * (currentY - posY) + "px";
         }
         setComplete(true);
       }
@@ -120,7 +156,7 @@ export default function Home() {
       </div>
       {openSetting ? (
         <div className="flex flex-col pb-10">
-          <label for="speed">Speed : {speed}</label>
+          <label HtmlFor="speed">Speed : {speed}</label>
           <input
             id="speed"
             type="number"
@@ -133,7 +169,7 @@ export default function Home() {
         <></>
       )}
 
-      <div style={{ "transition-duration": 100 }} className=" transition-all">
+      <div style={{ "transition-duration": 500 }} className=" transition-all">
         <div id="myText" className="bg-gray-200 rounded-xl p-4">
           {loadedModel ? (
             <iframe src="quiz.pdf" width="400px" height="400px"></iframe>
