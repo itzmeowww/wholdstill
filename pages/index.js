@@ -21,10 +21,21 @@ export default function Home() {
       return document.getElementById("speed").value;
     return 0.1;
   };
+  const updateImg = () => {
+    let files = document.getElementById("image-file").files;
+    if (files && files[0]) {
+      var img = document.getElementById("my-img");
+      img.onload = () => {
+        URL.revokeObjectURL(img.src); // no longer needed, free memory
+      };
+      img.src = URL.createObjectURL(files[0]); // set src to blob url
+    }
+  };
   useEffect(async () => {
     clearInterval();
     const video = document.getElementById("myVid");
     const text = document.getElementById("myText");
+
     if (
       "mediaDevices" in navigator &&
       "getUserMedia" in navigator.mediaDevices
@@ -164,15 +175,31 @@ export default function Home() {
             onChange={handleSpeedChange}
             value={speed}
           />
+          <input id="image-file" type="file" />
+          <button
+            className="bg-gray-200 rounded-md px-2  py-1 shadow-md "
+            onClick={updateImg}
+          >
+            update
+          </button>
         </div>
       ) : (
         <></>
       )}
 
       <div style={{ "transition-duration": 500 }} className=" transition-all">
-        <div id="myText" className="bg-gray-200 rounded-xl p-4">
+        <div id="myText" className="overflow-hidden">
           {loadedModel ? (
-            <iframe src="quiz.pdf" width="400px" height="400px"></iframe>
+            <>
+              <img
+                id="my-img"
+                src="cat.png"
+                className="w-screen"
+                height="100%"
+                width="auto"
+              ></img>
+              {/* <iframe src="quiz.pdf" width="400px" height="400px"></iframe> */}
+            </>
           ) : (
             <h2 className="animate-pulse">Loading Model...</h2>
           )}
