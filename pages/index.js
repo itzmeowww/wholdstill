@@ -109,7 +109,7 @@ export default function Home() {
             averageY = averageY + currentY;
             posList.push({ x: currentX, y: currentY });
           }
-          console.log(averageX, averageY);
+          console.log(currentX, averageX);
 
           if (posX == -1) {
             posX = currentX;
@@ -147,27 +147,34 @@ export default function Home() {
   }, []);
 
   return (
-    <div
-      className="flex flex-col items-center  py-2 bg-green-100"
-      style={{ height: "150vh" }}
-    >
+    <div className="flex flex-col items-center justify-start pt-2 ">
       <Head>
         <title>Wholdstill</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="text-center mb-10">
+      <div className="text-center mb-10 flex flex-col justify-start">
         <h1 className="text-7xl font-bold">Wholdstill</h1>
         <h1 className="text-3xl font-thin">whole + hold + still</h1>
         <button
-          className="bg-gray-200 rounded-md px-2  py-1 shadow-md "
+          className="bg-blue-400 rounded-md px-2 py-1 shadow-lg my-2"
           onClick={toggleSetting}
         >
           Setting
         </button>
+
+        <div>
+          <input id="image-file" type="file" />
+          <button
+            className="bg-blue-400 rounded-md px-2 py-1 shadow-lg "
+            onClick={updateImg}
+          >
+            update
+          </button>
+        </div>
       </div>
       {openSetting ? (
         <div className="flex flex-col pb-10">
-          <label HtmlFor="speed">Speed : {speed}</label>
+          <label HtmlFor="speed">Speed </label>
           <input
             id="speed"
             type="number"
@@ -175,28 +182,24 @@ export default function Home() {
             onChange={handleSpeedChange}
             value={speed}
           />
-          <input id="image-file" type="file" />
-          <button
-            className="bg-gray-200 rounded-md px-2  py-1 shadow-md "
-            onClick={updateImg}
-          >
-            update
-          </button>
         </div>
       ) : (
         <></>
       )}
 
-      <div style={{ "transition-duration": 500 }} className=" transition-all">
-        <div id="myText" className="overflow-hidden">
+      <div
+        style={{ "transition-duration": 500 }}
+        className=" transition-all w-full overflow-hidden"
+      >
+        <div id="myText" className="overflow-hidden flex justify-center w-full">
           {loadedModel ? (
             <>
               <img
                 id="my-img"
-                src="cat.png"
-                className="w-screen"
-                height="100%"
-                width="auto"
+                src="instruction.jpeg"
+                className="w-screen md:w-5/6"
+                height="auto"
+                width="100%"
               ></img>
               {/* <iframe src="quiz.pdf" width="400px" height="400px"></iframe> */}
             </>
