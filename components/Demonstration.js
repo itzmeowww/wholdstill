@@ -135,7 +135,7 @@ export default function Demo() {
             onClick={closeModal}
             className="w-full h-screen bg-black bg-opacity-50 absolute"
           ></div>
-          <div className=" bg-gray-50 px-5 py-10 mx-5 flex flex-col justify-center items-start rounded-md relative flex-wrap w-48 md:w-64">
+          <div className=" bg-gray-50 px-5 py-10 mx-5 flex flex-col justify-center items-start rounded-md relative flex-wrap w-56 md:w-72">
             <button
               onClick={closeModal}
               className="-top-3 -right-3 absolute rounded-full bg-red-400 w-6 h-6 text-center"
@@ -156,7 +156,7 @@ export default function Demo() {
               <></>
             )}
             {openSetting ? (
-              <div className="flex flex-col pb-10 w-4/5">
+              <div className="flex flex-col pb-10 w-4/5 mx-auto">
                 <label HtmlFor="speed">
                   <b>Sensitivity</b>
                 </label>
