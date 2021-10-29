@@ -22,8 +22,8 @@ export default function Demo() {
   };
 
   const getSpeed = () => {
-    if (document.getElementById("speed"))
-      return document.getElementById("speed").value;
+    if (document.getElementById("mySpeed"))
+      return document.getElementById("mySpeed").innerHTML;
     return 0.1;
   };
   const updateImg = () => {
@@ -129,6 +129,9 @@ export default function Demo() {
   }, []);
   return (
     <div style={{ height: "300vh" }}>
+      <h1 className="hidden" id="mySpeed">
+        {speed}
+      </h1>
       {openModal ? (
         <div className="flex w-full h-screen fixed z-10  justify-center items-center">
           <div
