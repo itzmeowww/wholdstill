@@ -2,6 +2,7 @@ import Container from "./Container";
 export default function Detail() {
   return (
     <Container>
+      <h1 id="section2"></h1>
       <h1 className="text-xs sm:text-base leading-6 sm:leading-8 text-center sm:text-left">
         <b>Wholdstill</b> is a content stabilizing software that uses face
         detection to determine the user’s relative position and shift the
@@ -9,10 +10,11 @@ export default function Detail() {
         in Javascript and can be integrated with any website to improve the
         user’s experience in any shaky environment. Whether the motion is from
         the device, user, or both, the content will move to reduce the relative
-        motion with the user. <b>Wholdstill</b> runs on the users’ browser and,
-        thus, does not require an additional server. With users’ consent to
-        access their webcam, the software is ready to make the whole screen stay
-        still.
+        motion with the user. Whether reading text while commuting in a car or
+        watching videos while running on a thread mill. <b>Wholdstill</b> runs
+        on the users’ browser and, thus, does not require an additional server.
+        With users’ consent to access their webcam, the software is ready to
+        make the whole screen stay still.
       </h1>
     </Container>
   );

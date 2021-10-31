@@ -1,3 +1,4 @@
+import { Link as ScrollLink } from "react-scroll";
 export default function Intro() {
   // const links = [
   //   { name: "HOME", url: "/" },
@@ -5,10 +6,8 @@ export default function Intro() {
   //   { name: "INTEGRATE", url: "/" },
   // ];
   return (
-    <div
-      className="text-white h-screen w-full bg-blue-400 bg-gradient-to-tr from-emerald-100 via-sky-300 to-fuchsia-300
-    flex flex-col justify-center items-center py-4 relative"
-    >
+    // bg-blue-400 bg-gradient-to-tr from-emerald-100 via-sky-300 to-fuchsia-300
+    <div className="bg-gradient-to-r from-green-300 via-blue-400 to-purple-500 text-white h-screen w-full flex flex-col justify-center items-center py-4 relative">
       <img
         src="logo.png"
         className="top-0 left-0 absolute w-20 xs:w-32 md:w-48"
@@ -31,15 +30,21 @@ export default function Intro() {
           Wholdstill holds the whole screen still​
         </h1>
         <a href="/demo">
-          <button className="bg-blue-600 px-2 py-1 my-4 shadow-md ">
+          <button className="bg-blue-600 px-2 py-1 my-4 shadow-md text-lg">
             Try Live Demo
           </button>
         </a>
       </div>
-      <img
-        src="arrow.png"
-        className="absolute bottom-10 w-12 animate-bounce mb-10"
-      ></img>
+
+      <ScrollLink
+        to="section2"
+        smooth={true}
+        duration={500}
+        offset={-40}
+        className="absolute bottom-10 w-12 animate-bounce mb-10 mx-auto cursor-pointer"
+      >
+        <img src="arrow.png"></img>
+      </ScrollLink>
     </div>
   );
 }
