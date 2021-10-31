@@ -30,7 +30,7 @@ export default function Intro() {
           Wholdstill holds the whole screen still​
         </h1>
         <a href="/demo">
-          <button className="bg-blue-600 px-2 py-1 my-4 shadow-md text-lg">
+          <button className="bg-blue-600 px-2 py-1 my-4 shadow-md text-base md:text-lg">
             Try Live Demo
           </button>
         </a>
