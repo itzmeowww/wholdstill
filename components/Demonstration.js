@@ -40,7 +40,7 @@ export default function Demo() {
     clearInterval();
     const video = document.getElementById("myVid");
     const text = document.getElementById("myText");
-
+    // console.log(navigator.mediaDevices);
     if (
       "mediaDevices" in navigator &&
       "getUserMedia" in navigator.mediaDevices
@@ -63,11 +63,12 @@ export default function Demo() {
           video.srcObject = stream;
         });
     }
-
+    console.log("loading");
     const MODEL_URL = "/models";
     await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
 
     setLoadedModel(true);
+    console.log("loaded");
 
     let movingAverage = 3;
     let couMovingAverage = 0;
@@ -122,6 +123,7 @@ export default function Demo() {
             speedConst * (posX - averageX / movingAverage) + "px";
           text.style.marginTop =
             speedConst * (averageY / movingAverage - posY) + "px";
+          console.log(text.style.marginLeft, text.style.marginTop);
         }
         setComplete(true);
       }
