@@ -48,7 +48,6 @@ export default function Demo() {
       video.setAttribute("playsinline", "");
       video.setAttribute("autoplay", "");
       video.setAttribute("muted", "");
-      video.style.width = "100px";
 
       let facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
       let constraints = {
@@ -63,12 +62,12 @@ export default function Demo() {
           video.srcObject = stream;
         });
     }
-    console.log("loading");
+    // console.log("loading");
     const MODEL_URL = "/models";
     await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
 
     setLoadedModel(true);
-    console.log("loaded");
+    // console.log("loaded");
 
     let movingAverage = 3;
     let couMovingAverage = 0;
@@ -90,8 +89,10 @@ export default function Demo() {
       if (complete) {
         setComplete(false);
         let fullDesc = await faceapi.detectSingleFace(video, OPTION);
-        console.log(fullDesc);
+        // console.log(fullDesc);
         if (fullDesc != undefined) {
+          document.getElementById("errorText").style.display = "none";
+
           let currentX = Math.floor(fullDesc.box.x * 20) / 20;
           let currentY = Math.floor(fullDesc.box.y * 20) / 20;
           if (couMovingAverage <= movingAverage) {
@@ -123,7 +124,9 @@ export default function Demo() {
             speedConst * (posX - averageX / movingAverage) + "px";
           text.style.marginTop =
             speedConst * (averageY / movingAverage - posY) + "px";
-          console.log(text.style.marginLeft, text.style.marginTop);
+          // console.log(text.style.marginLeft, text.style.marginTop);
+        } else {
+          document.getElementById("errorText").style.display = "block";
         }
         setComplete(true);
       }
@@ -198,8 +201,14 @@ export default function Demo() {
       ) : (
         <></>
       )}
+
       <div className="text-center mb-10 flex flex-col justify-start items-center px-20 py-10">
         <div className="flex justify-start w-full text-left"></div>
+        <video
+          crossOrigin="anonymous"
+          id="myVid"
+          className="top-0 left-0 absolute w-20 md:w-32"
+        />
         <a href="/" className="text-blue-600 font-bold">
           Home
         </a>
@@ -232,6 +241,11 @@ export default function Demo() {
             Upload Image
           </button>
         </div>
+        <div className="h-12">
+          <h1 className="text-red-500 mt-2" id="errorText">
+            Wholdstill cannot detect your face
+          </h1>
+        </div>
       </div>
 
       <div
@@ -252,7 +266,6 @@ export default function Demo() {
           )}
         </div>
       </div>
-      <video crossOrigin="anonymous" id="myVid" />
     </div>
   );
 }
