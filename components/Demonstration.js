@@ -90,7 +90,7 @@ export default function Demo() {
       if (complete) {
         setComplete(false);
         let fullDesc = await faceapi.detectSingleFace(video, OPTION);
-
+        console.log(fullDesc);
         if (fullDesc != undefined) {
           let currentX = Math.floor(fullDesc.box.x * 20) / 20;
           let currentY = Math.floor(fullDesc.box.y * 20) / 20;
