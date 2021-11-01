@@ -252,7 +252,7 @@ export default function Demo() {
           )}
         </div>
       </div>
-      <video crossOrigin="anonymous" id="myVid" className="hidden" />
+      <video crossOrigin="anonymous" id="myVid" />
     </div>
   );
 }
